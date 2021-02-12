@@ -1,15 +1,23 @@
 import React from "react";
 
-async function useFetch(url) {
-  let data;
-  try {
-    const res = await fetch(url);
-    data = await res.json();
-    console.log(data);
-  } catch (err) {
-    console.log(err);
-  }
-  return data;
+function useFetch(url) {
+  const [state, setState] = React.useState();
+
+  React.useEffect(() => {
+    console.log("stuff");
+    async function fetchRandomData() {
+      try {
+        const res = await fetch(url);
+        const data = await res.json();
+        setState(data);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+    fetchRandomData();
+  }, [url]);
+
+  return state;
 }
 
 export default useFetch;
