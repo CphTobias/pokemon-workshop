@@ -1,34 +1,23 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import findPokemon from "../../../domain/pokemon/findPokemon";
 import { PokemonContext } from "../../../domain/pokemon/PokemonContext";
-
-async function fetchMe(url) {
-  try {
-    const res = await fetch(url);
-    const data = await res.json();
-    console.log(data);
-    return data;
-  } catch (err) {
-    console.log(err);
-    return null;
-  }
-}
+import {
+  fetchPokemon,
+  findPokemon,
+} from "../../../domain/pokemon/PokemonFinder";
 
 function PokemonPage() {
   const params = useParams();
   const pokemonList = React.useContext(PokemonContext);
+  const foundPokemon = findPokemon(params.name, pokemonList);
   const [pokemon, setPokemon] = React.useState(null);
 
   React.useEffect(() => {
-    console.log(params.name);
-    console.log(pokemonList);
-    const foundPokemon = findPokemon(params.name, pokemonList);
-    fetchMe(foundPokemon.url).then(data => setPokemon(data));
+    fetchPokemon(foundPokemon.url).then(data => setPokemon(data));
     return () => {
       setPokemon(null);
     };
-  }, [params, pokemonList]);
+  }, [foundPokemon]);
 
   return (
     <div>
