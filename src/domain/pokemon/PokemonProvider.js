@@ -11,7 +11,7 @@ function PokemonProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchPokemen("https://pokeapi.co/api/v2/pokemon/?limit=151")
+    fetchPokemen("https://pokeapi.co/api/v2/pokemon/?limit=400")
       .then(data => {
         setPokemen(data.results);
       })
